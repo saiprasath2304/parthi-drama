@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drama Background Visuals PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .scene-preview {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .scene-preview:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .scene-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .scene-content {
+            color: #34495e;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+        
+        .generate-btn {
+            display: block;
+            width: 300px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6);
+            background: linear-gradient(45deg, #2980b9, #3498db);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .success {
+            display: none;
+            text-align: center;
+            color: #27ae60;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            background: #d5f4e6;
+            border-radius: 10px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Drama Background Visuals</h1>
+        <p class="subtitle">Shiradi ki Mahalsapathi Parthi ke Kown</p>
+        
+        <div id="scenes-preview">
+            <!-- Scene previews will be populated by JavaScript -->
+        </div>
+        
+        <button class="generate-btn" onclick="generatePDF()">
+            📄 Generate PDF Document
+        </button>
+        
+        <div class="loading" id="loading">
+            Generating your PDF document...
+        </div>
+        
+        <div class="success" id="success">
+            ✅ PDF generated successfully! Check your downloads folder.
+        </div>
+    </div>
+
+    <script>
+        const detailedScenes = {
+            "Scene 1 – Shiva Thandavam Dance (Kailasha)": `Theme: Cosmic Power & Divine Grace
+
+Background Visual:
+- Snow-capped peaks of Kailasha with a star-lit sky and a large crescent moon.
+- Subtle aurora or blue flames circling above Shiva's head to show cosmic energy.
+- Shiva Thandavam dance pose with sparks around feet, surrounded by Shiva Ganas.
+
+Special Effects:
+- Faint Mrityunjaya mantra lines animated across the screen.
+- Bharadwaja's fall and revival indicated with light halo focusing on his body.
+- Transition to golden warmth when Shiva blesses Bharadwaja.
+
+Tone: High energy, reverent, awe-inspiring.`,
+
+            "Scene 2 – Shiradi: Dwarkamayi and Mahalsapathi's Test": `Theme: Devotion, Surrender & Faith
+
+Background Visual:
+- Rural village entrance with neem tree, Khandoba temple in distant silhouette.
+- Inside Dwarkamayi: cracked walls, old lamps, spiritual warmth around Baba.
+- At night, soft diya lights flicker with shadows of devotees in background.
+
+Special Effects:
+- LED displays sunrise-sunset-night transitions as time passes for 3 days.
+- Third day: A golden glow begins to pulse subtly behind Baba's body.
+- On resurrection: intense golden burst from the center of the screen outward.
+
+Tone: Intimate, emotional, filled with inner struggle and eventual faith.`,
+
+            "Scene 3 – Birth of Sri Sathya Sai (Dance Drama)": `Theme: Divine Descent & Joyous Arrival
+
+Background Visual:
+- Cosmic space turning into Indian village backdrop.
+- Galaxies swirl and merge into Eswaramma's womb in a gentle light beam.
+- Anjaneya Temple as a 3D projection; Swami spinning with Lord Hanuman blessing.
+
+Special Effects:
+- Floating OM symbols and constellations aligning during the birth.
+- Children dancing with glowing footsteps, synchronized with bhajan rhythm.
+- Avatar Declaration: golden aura expands from Swami to the edges of the screen.
+
+Tone: Vibrant, celebratory, spiritual joy.`,
+
+            "Scene 4 – Sri Sathya Sai Avatar (1948–1968)": `Theme: Legacy, Service & Mission
+
+Background Visuals:
+- Timeline style visuals. Each episode transitions with a page flip or dissolve.
+- Episode 1: General Hospital - white building with patients being cared for.
+- Episode 2: Sanathana Sarathi - animated magazine pages with dharma quotes.
+- Episode 3: Yajnam - Yajna fire pit with vedic chants and vedapatashala in background.
+- Episode 4: Bhajan Mandir - bhajan session with lights shaped like a lotus.
+- Episode 5: Balvikas class - children sitting in circles, books open, Swami's photo in front.
+
+Tone: Enlightening, inspiring, rooted in action and service.`,
+
+            "Scene 5 – Sundaram: Guru Meets Sai Krishna": `Theme: Reunion, Reflection, Realization
+
+Background Visual:
+- Exterior: Sundaram spiritual center with soft early morning light.
+- Interior: Samadhi with flower garlands, volunteers serving prasadam.
+- Scene shifts to a flashback story: simple Tamil home with pooja room.
+
+Special Effects:
+- As old man enters, background subtly dims, then glow returns when Swami is revealed.
+- Emotionally rich light gradient behind characters during nostalgic storytelling.
+
+Tone: Reflective, personal, sacred.`,
+
+            "Scene 6 – Office Conflict (Duty vs Devotion)": `Theme: Moral Dilemma, Inner Conflict
+
+Background Visual:
+- Busy office with wall clocks, glowing computer monitors.
+- Central screen splits: left half golden angelic light, right half grey with flames (demon).
+
+Special Effects:
+- Shadows of Angel & Demon appearing as glowing outlines.
+- Sai Krishna in spotlight as he prays – surrounding noise fades, bhajan starts.
+
+Tone: Introspective, testing, powerful.`,
+
+            "Scene 7 – Parallel Sequence: Orphanage vs Office": `Theme: Divine Intervention
+
+Split-Screen Visual:
+- Left: Orphanage with happy children, Swami's photos, garlands.
+- Right: Office space with tense energy, waiting manager, quiet staff.
+
+Special Effects:
+- As story is narrated, dissolve effect shows 'Swami as Sai Krishna' in office.
+- Slight glow around both real and divine Sai Krishna – divine duplication illusion.
+
+Tone: Dramatic, revealing, miraculous.`,
+
+            "Scene 8 – Revelation & Closure": `Theme: Grace, Gratitude, Divine Presence
+
+Background Visual:
+- Samadhi glowing gently in the background with soft chanting.
+- Slowly fades in semi-transparent Swami behind Sai Krishna as a silhouette.
+
+Special Effects:
+- As Sai Krishna kneels, golden light spreads across the screen.
+- Final overlay: "If you take one step toward Me, I shall take a hundred toward you."
+
+Tone: Peaceful, fulfilled, spiritually uplifting.`
+        };
+
+        // Populate scene previews
+        function populateScenes() {
+            const container = document.getElementById('scenes-preview');
+            for (const [title, content] of Object.entries(detailedScenes)) {
+                const sceneDiv = document.createElement('div');
+                sceneDiv.className = 'scene-preview';
+                sceneDiv.innerHTML = `
+                    <div class="scene-title">${title}</div>
+                    <div class="scene-content">${content}</div>
+                `;
+                container.appendChild(sceneDiv);
+            }
+        }
+
+        function generatePDF() {
+            const loading = document.getElementById('loading');
+            const success = document.getElementById('success');
+            const button = document.querySelector('.generate-btn');
+            
+            loading.style.display = 'block';
+            button.disabled = true;
+            button.style.opacity = '0.6';
+
+            setTimeout(() => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Title
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('Detailed Background Visual Plan', 105, 20, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('Shiradi ki Mahalsapathi Parthi ke Kown', 105, 30, { align: 'center' });
+                
+                let yPosition = 50;
+                doc.setFontSize(11);
+                
+                for (const [title, content] of Object.entries(detailedScenes)) {
+                    // Check if we need a new page
+                    if (yPosition > 250) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    
+                    // Scene title
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(12);
+                    doc.text(title, 20, yPosition);
+                    yPosition += 10;
+                    
+                    // Scene content
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    
+                    const lines = content.split('\n');
+                    for (const line of lines) {
+                        if (yPosition > 280) {
+                            doc.addPage();
+                            yPosition = 20;
+                        }
+                        
+                        const wrappedLines = doc.splitTextToSize(line.trim(), 170);
+                        for (const wrappedLine of wrappedLines) {
+                            doc.text(wrappedLine, 22, yPosition);
+                            yPosition += 5;
+                        }
+                    }
+                    yPosition += 10;
+                }
+                
+                // Save the PDF
+                doc.save('Detailed_Drama_Background_Visuals.pdf');
+                
+                loading.style.display = 'none';
+                success.style.display = 'block';
+                button.disabled = false;
+                button.style.opacity = '1';
+                
+                setTimeout(() => {
+                    success.style.display = 'none';
+                }, 5000);
+                
+            }, 1500);
+        }
+
+        // Initialize the page
+        populateScenes();
+    </script>
+</body>
+</html>
